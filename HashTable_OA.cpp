@@ -3,79 +3,130 @@
 
 using namespace std;
 
-Node::Node(int v, int k) : value(v), key(k)
-{}
-
-Node::Node(): value(0), key(0)
-{}
-
-HashTable_OA::HashTable_OA()
+HashTable_OA::HashTable_OA() : size(0), capacity(1) 
 {
-	tab = nullptr;
-	size = 0;
-	capacity = 0;
+	tab = new Node[capacity];
 }
 
-HashTable_OA::~HashTable_OA()
-{}
-
-void HashTable_OA::increase_capacity()
+HashTable_OA::~HashTable_OA() 
 {
-	int new_capacity;
-
-	if (capacity == 0)
-	{
-		new_capacity = 1;
-	}
-	else
-	{
-		new_capacity = capacity * 2;
-	}
-
-	Node* new_tab = new Node[new_capacity];
-	for (int i = 0; i < size; i++)
-	{
-		new_tab[i] = tab[i];
-	}
 	delete[] tab;
-	tab = new_tab;
+}
 
+void HashTable_OA::increase_capacity() 
+{
+	//zwiekszenie dwu krotnie pojemnosci
+	int new_capacity = capacity * 2;
+
+	//stworzenie nowej tablicy o nowe pojemnosci
+	Node* new_tab = new Node[new_capacity];
+
+	for (int i = 0; i < capacity; ++i) 
+	{
+		//jezeli element tablicy nie jest pusty
+		if (!tab[i].is_empty)
+		{
+			//wytypowanie nowego indkesu dla klucza przy nowej pojemnosci
+			int j = tab[i].key % new_capacity;
+
+			//dopoki wystepuje kolizja
+			while (!new_tab[j].is_empty) 
+			{
+				//typowanie nowego indeksu
+				j = (j + 1) % new_capacity;
+			}
+
+			//przepisanie elementow do nowej tablicy
+			new_tab[j] = tab[i];
+		}
+	}
+
+	delete[] tab;
+	//zaktualizowanie zmiennych 
+	tab = new_tab;
 	capacity = new_capacity;
 }
 
 void HashTable_OA::insert(int v, int k)
 {
-	//Zwieksz pojemnosc tablicy, jezeli rozmiar jest od niej wiekszy rowny
-	if (size >= capacity)
+	if (size >= capacity / 2)
 	{
 		increase_capacity();
 	}
 
-	//Nowy element tablicy
-	Node* new_node = new Node(v, k);
+	//stworzenie nowego elementu tablicy
+	Node new_node(v, k);
 
-	//Wytypowanie indeksu dla elementu za pomoca funkcji haszujacej
-	int index = hash(k);
+	//wytypowanie nowego indeksu za pomoca funkcji hashujacej
+	int i = hash(k);
 
-	//Wykrywanie kolizji (pod wytypownym indeksem znajduje sie juz inny klucz)
-	//Szukamy pierwszego wolnego indeksu
-	while ((tab[index].key != k) && (tab[index].key != 0))
+	//dopoki zachodzi kolizja
+	while ((!tab[i].is_empty) && (tab[i].key != k))
 	{
-		index++;
-		if (index >= (capacity - 1))
-		{
-			index = 0;
-		}
+		//typoowanie nowego indeksu
+		i = (i + 1) % capacity;
 	}
-
-	tab[index].key = k;
-	tab[index].value = v;
-
+	//przypisanie pod wytypowany indkes nowego elementu
+	tab[i] = new_node;
 	size++;
+} 
+
+int HashTable_OA::hash(int k) const 
+{
+	//dzieki funkcji modulo indeks bedzie zawsze mniejszy od pojemnosci
+	return k % capacity;
 }
 
-int HashTable_OA::hash(int k)
+void HashTable_OA::show() const
 {
-	//Dzieki modulo, wytypowany indeks bedzie zawsze mnijeszy od rozmiaru 
-	return k % capacity;
+	//iterowanie po wszystkich (nie pustych) elementach i wypisanie danych
+	for (int i = 0; i < capacity; i++) 
+	{
+		if (!tab[i].is_empty) 
+		{
+			cout <<"INDEKS ["<<i<<"]   KLUCZ [" << tab[i].key << "]   WARTOSC [" << tab[i].value <<"]"<< endl;
+		}
+	}
+	if (size == 0)
+	{
+		cout << "Tablica jest pusta.";
+	}
+}
+int  HashTable_OA::capacity_() const
+{
+	//zwrocenie pojemnosci
+	return capacity;
+}
+
+int  HashTable_OA::size_() const
+{
+	//zwrocenie rozmiaru
+	return size;
+}
+
+void HashTable_OA::remove(int k) 
+{
+	//szukamy indkesu elementu o wskazanym kluczu 
+	int i = hash(k);
+	while (!tab[i].is_empty) 
+	{
+		//jezeli podany klucz zgadza sie z zapisanym pod indeksem i
+		if(tab[i].key == k)
+		{
+			//wywolanie konstruktora domyslnego do miejsca tablicy w ktorym znajduje sie element do usuniecia
+			tab[i] = Node(); 
+			size--;
+			cout << "Usuniety element znajdowal sie pod indeksem " << i << endl;
+			return;
+		}
+		i = (i + 1) % capacity;
+	}
+	cout << "Podany klucz nie istnieje w tablicy." << endl;
+}
+
+void HashTable_OA::clear()
+{
+	//wyczyszczenie tablicy
+	size = 0;
+	capacity = 1;
 }
