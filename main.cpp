@@ -80,24 +80,7 @@ int main()
 	cout << "Sredni czas wykonania: " << average_time.count() << " nanosekund" << endl;
    */
    //.....................................................................................................
-	/*
-    OA.insert(15, 6);
-    OA.insert(25, 6);
-    OA.insert(325, 121);
-    OA.insert(205, 61);
-    OA.insert(3025, 121);
-    OA.insert(1, 22);
-
-    //OA.insert(25, 43);
-    
-    OA.show();
-    cout << "--------------------" << endl;
-    //OA.remove(6);
-    cout << endl;
-    //OA.show();
-    cout << endl << OA.cap();
-  */
-
+	
 
 
 
