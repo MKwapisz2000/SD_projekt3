@@ -44,35 +44,13 @@ int main()
 	int key;
 	while (plik >> value >> key)
 	{
+		OA.insert(value, key);
 		CA.insert(value, key);
 	}
 	plik.close();
 	*/
 
 	//.....................................................................................................
-
-
-	
-	
-	CA.insert(48, 122);
-	CA.insert(8, 102);
-	//CA.insert(29, 126);
-	//CA.insert(1, 10);
-
-
-	CA.insert(29, 114);
-	//CA.insert(1, 6);
-	//CA.insert(29, 14);
-
-	CA.insert(120, 51);
-	CA.insert(1, 51);
-
-	
-	CA.show();
-	cout << "rozmiar tablicy: " << CA.size_() << endl;
-	cout << "pojemnosc: " << CA.capacity_() << endl;
-
-	
 
 	
 
@@ -81,7 +59,7 @@ int main()
 	/*
 	// Pomiar czasu dla pojedynczego wywołania funkcji
 		auto begin = chrono::high_resolution_clock::now();
-		h1.modify_key(3850,121);
+		OA.insert(3,123);
 		auto end = chrono::high_resolution_clock::now();
 		auto elapsed = chrono::duration_cast<chrono::nanoseconds>(end - begin);
 

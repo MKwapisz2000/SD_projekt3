@@ -200,8 +200,6 @@ void BST::update_bf(Node_BST* node)
 
 		node->bf = hl - hp;
 
-		std::cout << "Node Key: " << node->key << ", HL: " << hl << ", HP: " << hp << ", BF: " << node->bf << std::endl;
-
 		if (node->bf == 2 || node->bf == -2) 
 		{
 			if ((node->bf == 2) && (node->left != nullptr) && (node->left->bf == -1))
@@ -235,9 +233,6 @@ void BST::update_bf(Node_BST* node)
 		node = node->parent;
 	}
 }
-
-
-
 
 
 void BST::rotation(Node_BST* node, string bf)	
@@ -457,7 +452,7 @@ void HashTable_CA::show() const
 			if (tab[i].size_BST != 0 )
 			{
 				cout << "   DRZEWO [" << tab[i].size_BST << " elementowe]" << endl;
-				tab[i].show_BST(tab[i].root); 
+				//tab[i].show_BST(tab[i].root); 
 				cout << endl << endl;
 			}
 		}
@@ -482,8 +477,6 @@ void BST::show_BST(Node_BST* node) const
 	cout << "  KLUCZ [" << current->key << "]  WARTOSC [" << current->value << "]  BF [" << current->bf << "]" << endl;
 	show_BST(current->left);
 	show_BST(current->right);
-
-	delete current;
 }
 
 int  HashTable_CA::capacity_() const
@@ -504,17 +497,24 @@ void  HashTable_CA::remove(int k)
 	int i = hash(k);
 
 	tab[i].remove_BST(k);
-	if(tab[i].is_empty)
-	size--;
 
+	//jezeli drzewo jest puste to zmniejszamy rozmiar tablicy
+	if (tab[i].is_empty)
+	{
+		
+		size--;
+	}
 }
 
-void BST::remove_BST(int k) {
+
+void BST::remove_BST(int k)
+{
 	Node_BST* current = root;
 	Node_BST* parent = nullptr;
 
 	// ZnajdŸ wêze³ do usuniêcia
-	while (current != nullptr && current->key != k) {
+	while (current != nullptr && current->key != k) 
+	{
 		parent = current;
 		if (k < current->key) {
 			current = current->left;
@@ -525,71 +525,92 @@ void BST::remove_BST(int k) {
 	}
 
 	// Jeœli wêze³ nie zosta³ znaleziony
-	if (current == nullptr) {
+	if (current == nullptr)
+	{
 		return;
 	}
 
 	// Wêze³ nie ma potomków
-	if (current->left == nullptr && current->right == nullptr) {
-		if (current != root) {
-			if (parent->left == current) {
+	if (current->left == nullptr && current->right == nullptr) 
+	{
+		if (current != root) 
+		{
+			if (parent->left == current)
+			{
 				parent->left = nullptr;
 			}
-			else {
+			else 
+			{
 				parent->right = nullptr;
 			}
 		}
-		else {
+		else
+		{
 			root = nullptr;
 		}
 		delete current;
 	}
 	// Wêze³ ma jednego potomka
-	else if (current->left == nullptr || current->right == nullptr) {
+	else if (current->left == nullptr || current->right == nullptr)
+	{
 		Node_BST* child = (current->left != nullptr) ? current->left : current->right;
 
-		if (current != root) {
-			if (current == parent->left) {
+		if (current != root) 
+		{
+			if (current == parent->left) 
+			{
 				parent->left = child;
 			}
-			else {
+			else 
+			{
 				parent->right = child;
 			}
 		}
-		else {
+		else 
+		{
 			root = child;
 		}
 		child->parent = parent;
 		delete current;
 	}
 	// Wêze³ ma dwóch potomków
-	else {
+	else 
+	{
 		Node_BST* successor = current->right;
 		Node_BST* successorParent = current;
 
-		while (successor->left != nullptr) {
+		// ZnajdŸ nastêpnika (najmniejszy wêze³ w prawym poddrzewie)
+		while (successor->left != nullptr) 
+		{
 			successorParent = successor;
 			successor = successor->left;
 		}
 
-		if (successorParent != current) {
+		// Nastêpca nie jest bezpoœrednim dzieckiem current
+		if (successorParent != current) 
+		{
 			successorParent->left = successor->right;
-			if (successor->right != nullptr) {
+			if (successor->right != nullptr) 
+			{
 				successor->right->parent = successorParent;
 			}
 			successor->right = current->right;
 			current->right->parent = successor;
 		}
 
+		// Zamieñ current z successor
 		if (current != root) {
-			if (current == parent->left) {
+			if (current == parent->left) 
+			{
 				parent->left = successor;
 			}
-			else {
+			else 
+			{
 				parent->right = successor;
 			}
 		}
-		else {
+		else 
+		{
 			root = successor;
 		}
 
@@ -600,13 +621,25 @@ void BST::remove_BST(int k) {
 	}
 
 	size_BST--;
-	if (size_BST == 0) 
+	if (size_BST == 0)
 	{
 		is_empty = true;
 	}
+
+	// SprawdŸ, czy drzewo wymaga rotacji po usuniêciu wêz³a
+	if (parent != nullptr)
+	{
+		update_bf(parent);
+	}
+	
 }
 
-
+void HashTable_CA::clear()
+{
+	//wyczyszczenie tablicy
+	size = 0;
+	capacity = 1;
+}
 
 
 

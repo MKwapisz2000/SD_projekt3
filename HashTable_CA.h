@@ -67,7 +67,7 @@ public:
 	void remove(int k);
 	void increase_capacity();
 	void show() const;
-	
+	void clear();
 	int capacity_() const;
 	int size_() const;
 };
