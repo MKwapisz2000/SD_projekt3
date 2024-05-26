@@ -21,7 +21,7 @@ class HashTable_OA {
 	int size;
 	int capacity;
 
-	int hash(int k) const;
+	//int hash(int k) const;
 
 public:
 	HashTable_OA();

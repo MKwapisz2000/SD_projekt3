@@ -2,6 +2,7 @@
 #include <fstream>
 #include <chrono>
 #include "HashTable_OA.h"
+#include "HashTable_CA.h"
 
 using namespace std;
 
@@ -11,13 +12,14 @@ int main()
 
 	//Obiekt klasy - tablica mieszajaca - adresowanie otwarte
     HashTable_OA OA;
+	HashTable_CA CA;
 
     //.......................................................................................................
     
 
 
 	//..............................WCZYTANIE DANYCH Z PLIKU...............................................
-
+	/*
 	// Licznik całkowitego czasu wykonania
 	//auto total_time = 0ns;
 
@@ -42,18 +44,36 @@ int main()
 	int key;
 	while (plik >> value >> key)
 	{
-		OA.insert(value, key);
+		CA.insert(value, key);
 	}
 	plik.close();
-
+	*/
 
 	//.....................................................................................................
 
 
-	OA.show();
-	OA.remove(6622);
-	cout <<endl<<OA.size_();
 	
+	
+	CA.insert(48, 122);
+	CA.insert(8, 102);
+	//CA.insert(29, 126);
+	//CA.insert(1, 10);
+
+
+	CA.insert(29, 114);
+	//CA.insert(1, 6);
+	//CA.insert(29, 14);
+
+	CA.insert(120, 51);
+	CA.insert(1, 51);
+
+	
+	CA.show();
+	cout << "rozmiar tablicy: " << CA.size_() << endl;
+	cout << "pojemnosc: " << CA.capacity_() << endl;
+
+	
+
 	
 
 
