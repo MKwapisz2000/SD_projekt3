@@ -1,0 +1,186 @@
+void BST::remove_BST(int k)
+{
+	Node_BST* current = root;
+	Node_BST* temp;
+
+	while (current != nullptr && current->key != k)
+	{
+		//parent = current;
+		if (k < current->key) {
+			current = current->left;
+		}
+		else {
+			current = current->right;
+		}
+	}
+
+	//iterujemy po wezlach, szukajac tego o kluczu k
+	//while (current)
+	//{
+		//znalezlismy szukany wezel
+		if (current->key == k)
+		{
+			//jezeli wezel jest korzeniem - usuwamy go i ustawaimy indeks tablicy na is_epmty
+			if (current == root)
+			{
+				root = nullptr;
+
+				size_BST = 0;
+				if (size_BST == 0)
+				{
+					is_empty = true;
+				}
+				delete current;
+				return;
+			}
+
+
+			//usuwany wezel nie ma dzieci
+			if ((current->left == nullptr) && (current->right == nullptr))
+			{
+				//w zalenosci czy wezel jes lewym czy prawym dzieckiem swojego rodzica, ustawiamy dziecko rodzica na nullptr
+				if (current->parent->left == current)
+				{
+					current->parent->left = nullptr;
+				}
+				else if (current->parent->right == current)
+				{
+					current->parent->right = nullptr;
+				}
+
+				size_BST--;
+				if (size_BST == 0)
+				{
+					is_empty = true;
+				}
+				delete current;
+				return;
+			}
+
+
+			//usuwany wezel ma jedno dziecko
+			if ((current->left != nullptr) && (current->right == nullptr))
+			{
+				temp = current->left;
+				
+				//w zalenosci czy wezel jes lewym czy prawym dzieckiem swojego rodzica, ustawiamy dziecko rodzica na dziecko current
+				if (current->parent->left == current)
+				{
+					current->parent->left = temp;
+					
+				}
+				else if (current->parent->right == current)
+				{
+					current->parent->right = temp;
+				}
+
+				temp->parent = current->parent;
+
+				size_BST--;
+				if (size_BST == 0)
+				{
+					is_empty = true;
+				}
+				delete current;
+				return;
+			}
+			else if ((current->left == nullptr) && (current->right != nullptr))
+			{
+				temp = current->right;
+
+				//w zalenosci czy wezel jes lewym czy prawym dzieckiem swojego rodzica, ustawiamy dziecko rodzica na dziecko current
+				if (current->parent->left == current)
+				{
+					current->parent->left = temp;
+
+				}
+				else if (current->parent->right == current)
+				{
+					current->parent->right = temp;
+				}
+
+				temp->parent = current->parent;
+
+				size_BST--;
+				if (size_BST == 0)
+				{
+					is_empty = true;
+				}
+				delete current;
+				return;
+			}
+
+
+			//usuwany wezel ma dwoje dzieci
+			if ((current->left != nullptr) && (current->right != nullptr))
+			{
+				Node_BST* successorParent = current;
+				Node_BST* successor = current->right;
+
+				//szukamy nastepnika dla wezla usuwanego (nastepnik nigdy nie posiada lewego syna)
+				while (successor->left != nullptr)
+				{
+					successorParent = successor;
+					successor = successor->left;
+				}
+
+				//jeśli następnik nie jest bezpośrednim prawym dzieckiem usuwanego węzła
+				if (successorParent != current)
+				{
+					successorParent->left = successor->right;
+					if (successor->right != nullptr)
+					{
+						successor->right->parent = successorParent;
+					}
+					successor->right = current->right;
+					current->right->parent = successor;
+				}
+
+				//przestawienie referencji rodzica usuwanego węzła
+				if (current != root)
+				{
+					if (current == current->parent->left)
+					{
+						current->parent->left = successor;
+					}
+					else
+					{
+						current->parent->right = successor;
+					}
+				}
+				else
+				{
+					root = successor;
+				}
+
+				successor->left = current->left;
+				current->left->parent = successor;
+				successor->parent = current->parent;
+
+				delete current;
+				size_BST--;
+				if (size_BST == 0)
+				{
+					is_empty = true;
+				}
+				return;
+			
+			}
+		}
+
+
+		/*//nadal szukamy wezla do usuniecia
+		else
+		{
+			if (k < current->key)
+			{
+				current = current->left;
+			}
+			else if (k >= current->key)
+			{
+				current = current->right;
+			}
+		}*/
+	//}
+	
+}

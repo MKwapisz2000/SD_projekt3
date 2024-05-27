@@ -19,7 +19,7 @@ int main()
 
 
 	//..............................WCZYTANIE DANYCH Z PLIKU...............................................
-	/*
+	
 	// Licznik całkowitego czasu wykonania
 	//auto total_time = 0ns;
 
@@ -48,7 +48,7 @@ int main()
 		CA.insert(value, key);
 	}
 	plik.close();
-	*/
+	
 
 	//.....................................................................................................
 
@@ -80,6 +80,156 @@ int main()
    //.....................................................................................................
 	
 
+
+
+   //..................................MENU...............................................................
+	
+	int zmienna1;
+	char zmienna2;
+	int e;
+	int k;
+
+	cout << "TABLICA MIESZAJACA:" << endl
+		<< "[1] Adresowanie otwarte" << endl
+		<< "[2] Adresowanie zamkniete ze zbalansowanym BST" << endl
+		<< "[3] Cuckoo hashing" << endl;
+	cout << "Przechodze do struktury numer: ";
+	cin >> zmienna1;
+	system("cls");
+	switch (zmienna1)
+	{
+	case 1:
+	{
+		cout << "Wybierz funkcje z ktorej chcesz skorzystac:" << endl
+			<< "[a] insert(e, k)" << endl
+			<< "[b] remove(k)" << endl;
+
+		cout << "Przechodze do funkcji: ";
+		cin >> zmienna2;
+
+		switch (zmienna2)
+		{
+		case 'a':
+		{
+			cout << "Podaj wartosc elementu ktory chcesz dodac oraz jego klucz: ";
+			cin >> e >> k;
+			OA.insert(e, k);
+			cout << endl;
+			system("cls");
+			cout << "Obecny rozmiar tablicy: " << OA.size_() << endl;
+			OA.show();
+
+			break;
+		}
+
+		case 'b':
+		{
+			cout << "Podaj klucz elementu ktory chcesz usunac: ";
+			cin >> k;
+			OA.remove(k);
+			cout << endl;
+			system("cls");
+			cout << "Obecny rozmiar tablicy: " << OA.size_() << endl;
+			OA.show();
+
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	}
+
+	case 2:
+	{
+		cout << "Wybierz funkcje z ktorej chcesz skorzystac:" << endl
+			<< "[a] insert(e, k)" << endl
+			<< "[b] remove(k)" << endl;
+
+		cout << "Przechodze do funkcji: ";
+		cin >> zmienna2;
+
+		switch (zmienna2)
+		{
+		case 'a':
+		{
+			cout << "Podaj wartosc elementu ktory chcesz dodac oraz jego klucz: ";
+			cin >> e >> k;
+			CA.insert(e, k);
+			cout << endl;
+			system("cls");
+			cout << "Obecny rozmiar tablicy: " << CA.size_() << endl;
+			CA.show();
+
+			break;
+		}
+
+		case 'b':
+		{
+			cout << "Podaj klucz elementu ktory chcesz usunac: ";
+			cin >> k;
+			CA.remove(k);
+			cout << endl;
+			system("cls");
+			cout << "Obecny rozmiar tablicy: " << CA.size_() << endl;
+			CA.show();
+
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	}
+
+
+	case 3:
+	{
+		cout << "Wybierz funkcje z ktorej chcesz skorzystac:" << endl
+			<< "[a] insert(e, k)" << endl
+			<< "[b] remove(k)" << endl;
+
+		cout << "Przechodze do funkcji: ";
+		cin >> zmienna2;
+
+		switch (zmienna2)
+		{
+		case 'a':
+		{
+			cout << "Podaj wartosc elementu ktory chcesz dodac oraz jego klucz: ";
+			cin >> e >> k;
+			//....
+			cout << endl;
+			system("cls");
+			//cout << "Obecny rozmiar tablicy: " << //.....<< endl;
+			//......show();
+
+			break;
+		}
+
+		case 'b':
+		{
+			cout << "Podaj klucz elementu ktory chcesz usunac: ";
+			cin >> k;
+			//........
+			cout << endl;
+			system("cls");
+			//cout << "Obecny rozmiar tablicy: " <<//..... size_() << endl;
+			//......show();
+
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	}
+	}
+	
+	//.....................................................................................................
 
 
     return 0;
