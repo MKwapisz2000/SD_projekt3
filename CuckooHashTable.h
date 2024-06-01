@@ -31,4 +31,6 @@ public:
     CuckooHashTable();
     ~CuckooHashTable();
     void insert(int v, int k);
+    void show() const;
+    void remove(int k);
 };
