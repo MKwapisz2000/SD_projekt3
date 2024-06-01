@@ -55,3 +55,47 @@ void CuckooHashTable::rehash()
     delete[] old_table1;
     delete[] old_table2;
 }
+
+// Funkcja zamieniająca elementy
+void CuckooHashTable::swap(Node& a, Node& b) 
+{
+    Node temp = a;
+    a = b;
+    b = temp;
+}
+
+// Funkcja wstawiająca element do tablicy
+void CuckooHashTable::insert(int v, int k) 
+{
+    if (size >= capacity) 
+    {
+        rehash();
+    }
+
+    Node newNode(v, k);
+    for (int count = 0; count < 2 * capacity; ++count) 
+    {
+        int pos1 = hash1(k);
+        if (table1[pos1].is_empty) 
+        {
+            table1[pos1] = newNode;
+            size++;
+            return;
+        }
+
+        swap(newNode, table1[pos1]);
+
+        int pos2 = hash2(newNode.key);
+        if (table2[pos2].is_empty) 
+        {
+            table2[pos2] = newNode;
+            size++;
+            return;
+        }
+
+        swap(newNode, table2[pos2]);
+    }
+
+    rehash();
+    insert(newNode.value, newNode.key);
+}
