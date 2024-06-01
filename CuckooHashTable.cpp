@@ -151,3 +151,26 @@ void CuckooHashTable::show() const
         }
     }
 }
+
+// Funkcja zwracająca aktualną pojemność tablicy
+int CuckooHashTable::capacity_() const 
+{
+    return capacity;
+}
+
+// Funkcja zwracająca aktualną liczbę elementów w tablicy
+int CuckooHashTable::size_() const 
+{
+    return size;
+}
+
+// Funkcja usuwająca wszystkie elementy z tablicy i resetująca jej stan do początkowego
+void CuckooHashTable::clear() 
+{
+    delete[] table1;
+    delete[] table2;
+    capacity = 1; // Resetowanie pojemności do początkowej wartości
+    table1 = new Node[capacity];
+    table2 = new Node[capacity];
+    size = 0;
+}
