@@ -99,3 +99,55 @@ void CuckooHashTable::insert(int v, int k)
     rehash();
     insert(newNode.value, newNode.key);
 }
+
+// Funkcja usuwająca element z tablicy
+void CuckooHashTable::remove(int k) 
+{
+    int pos1 = hash1(k);
+    if (!table1[pos1].is_empty && table1[pos1].key == k) 
+    {
+        table1[pos1] = Node();
+        size--;
+        cout << "Usunięty element znajdował się pod indeksem " << pos1 + 1 << endl;
+        return;
+    }
+
+    int pos2 = hash2(k);
+    if (!table2[pos2].is_empty && table2[pos2].key == k) 
+    {
+        table2[pos2] = Node();
+        size--;
+        cout << "Usunięty element znajdował się pod indeksem " << pos2 + 1 << endl;
+        return;
+    }
+
+    cout << "Podany klucz nie istnieje w tablicy." << endl;
+}
+
+// Funkcja wyświetlająca zawartość tablic
+void CuckooHashTable::show() const 
+{
+    if (size == 0) 
+    {
+        cout << "Tablica jest pusta." << endl;
+        return;
+    }
+
+    cout << "Tabela 1:" << endl;
+    for (int i = 0; i < capacity; ++i) 
+    {
+        if (!table1[i].is_empty) 
+        {
+            cout << "[" << i + 1 << "] Klucz: " << table1[i].key << ", Wartość: " << table1[i].value << endl;
+        }
+    }
+
+    std::cout << "Tabela 2:" << std::endl;
+    for (int i = 0; i < capacity; ++i) 
+    {
+        if (!table2[i].is_empty) 
+        {
+            cout << "[" << i + 1<< "] Klucz: " << table2[i].key << ", Wartość: " << table2[i].value << endl;
+        }
+    }
+}
