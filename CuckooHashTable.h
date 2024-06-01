@@ -33,4 +33,7 @@ public:
     void insert(int v, int k);
     void show() const;
     void remove(int k);
+    int capacity_() const;
+    int size_() const;
+    void clear();
 };
