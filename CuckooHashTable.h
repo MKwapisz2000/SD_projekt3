@@ -13,3 +13,20 @@ public:
 
     friend class CuckooHashTable;
 };
+
+class CuckooHashTable 
+{
+    Node* table1;
+    Node* table2;
+    int capacity;
+    int size;
+    int rehash_count;
+
+    int hash1(int key) const;
+    int hash2(int key) const;
+    void rehash();
+
+public:
+    CuckooHashTable();
+    ~CuckooHashTable();
+};
