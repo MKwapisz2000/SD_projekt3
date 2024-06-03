@@ -1,11 +1,13 @@
 #include <iostream>
 #include "CuckooHashTable.h"
 
+using namespace std;
+
 // Konstruktor klasy CuckooHashTable
 CuckooHashTable::CuckooHashTable() : capacity(1), size(0), rehash_count(0) 
 {
-    table1 = new Node[capacity];
-    table2 = new Node[capacity];
+    table1 = new Nod[capacity];
+    table2 = new Nod[capacity];
 }
 
 // Destruktor klasy CuckooHashTable
@@ -30,13 +32,13 @@ int CuckooHashTable::hash2(int key) const
 // Funkcja rehashująca
 void CuckooHashTable::rehash() 
 {
-    Node* old_table1 = table1;
-    Node* old_table2 = table2;
+    Nod* old_table1 = table1;
+    Nod* old_table2 = table2;
     int old_capacity = capacity;
 
     capacity *= 2;  // Zwiększenie pojemności
-    table1 = new Node[capacity];
-    table2 = new Node[capacity];
+    table1 = new Nod[capacity];
+    table2 = new Nod[capacity];
     size = 0;
 
     for (int i = 0; i < old_capacity; ++i)  
@@ -57,9 +59,9 @@ void CuckooHashTable::rehash()
 }
 
 // Funkcja zamieniająca elementy
-void CuckooHashTable::swap(Node& a, Node& b) 
+void CuckooHashTable::swap(Nod& a, Nod& b) 
 {
-    Node temp = a;
+    Nod temp = a;
     a = b;
     b = temp;
 }
@@ -67,12 +69,28 @@ void CuckooHashTable::swap(Node& a, Node& b)
 // Funkcja wstawiająca element do tablicy
 void CuckooHashTable::insert(int v, int k) 
 {
+    //Sprawdzanie czy klucz juz istnieje
+    int pos1 = hash1(k);
+    if(!table1[pos1].is_empty && table1[pos1].key == k)
+    {
+        cout << "Klucz " << k << " juz istnieje w tablicy . Zakanczamy dzialanie programu" << endl;
+        return;
+    }
+
+     //Sprawdzanie czy klucz juz istnieje
+    int pos2 = hash1(k);
+    if(!table2[pos2].is_empty && table2[pos2].key == k)
+    {
+        cout << "Klucz " << k << " juz istnieje w tablicy. Zakanczamy dzialanie programu" << endl;
+        return;
+    }
+
     if (size >= capacity) 
     {
         rehash();
     }
 
-    Node newNode(v, k);
+    Nod newNode(v, k);
     for (int count = 0; count < 2 * capacity; ++count) 
     {
         int pos1 = hash1(k);
@@ -106,18 +124,18 @@ void CuckooHashTable::remove(int k)
     int pos1 = hash1(k);
     if (!table1[pos1].is_empty && table1[pos1].key == k) 
     {
-        table1[pos1] = Node();
+        table1[pos1] = Nod();
         size--;
-        cout << "Usunięty element znajdował się pod indeksem " << pos1 + 1 << endl;
+        cout << "Usuniety element znajdowal sie pod indeksem " << pos1 << endl;
         return;
     }
 
     int pos2 = hash2(k);
     if (!table2[pos2].is_empty && table2[pos2].key == k) 
     {
-        table2[pos2] = Node();
+        table2[pos2] = Nod();
         size--;
-        cout << "Usunięty element znajdował się pod indeksem " << pos2 + 1 << endl;
+        cout << "Usuniety element znajdowal sie pod indeksem " << pos2 << endl;
         return;
     }
 
@@ -138,7 +156,7 @@ void CuckooHashTable::show() const
     {
         if (!table1[i].is_empty) 
         {
-            cout << "[" << i + 1 << "] Klucz: " << table1[i].key << ", Wartość: " << table1[i].value << endl;
+            cout << "[" << i + 1 << "] Klucz: " << table1[i].key << ", Wartosc: " << table1[i].value << endl;
         }
     }
 
@@ -147,7 +165,7 @@ void CuckooHashTable::show() const
     {
         if (!table2[i].is_empty) 
         {
-            cout << "[" << i + 1<< "] Klucz: " << table2[i].key << ", Wartość: " << table2[i].value << endl;
+            cout << "[" << i + 1<< "] Klucz: " << table2[i].key << ", Wartosc: " << table2[i].value << endl;
         }
     }
 }
@@ -170,7 +188,7 @@ void CuckooHashTable::clear()
     delete[] table1;
     delete[] table2;
     capacity = 1; // Resetowanie pojemności do początkowej wartości
-    table1 = new Node[capacity];
-    table2 = new Node[capacity];
+    table1 = new Nod[capacity];
+    table2 = new Nod[capacity];
     size = 0;
 }
