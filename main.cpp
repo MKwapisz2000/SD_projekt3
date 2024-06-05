@@ -3,7 +3,7 @@
 #include <chrono>
 #include "HashTable_OA.h"
 #include "HashTable_CA.h"
-#include "CuckooHshTable.h"
+#include "CuckooHashTable.h"
 
 using namespace std;
 
