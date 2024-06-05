@@ -78,7 +78,7 @@ void CuckooHashTable::insert(int v, int k)
     }
 
      //Sprawdzanie czy klucz juz istnieje
-    int pos2 = hash1(k);
+    int pos2 = hash2(k);
     if(!table2[pos2].is_empty && table2[pos2].key == k)
     {
         cout << "Klucz " << k << " juz istnieje w tablicy. Zakanczamy dzialanie programu" << endl;
