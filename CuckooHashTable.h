@@ -25,7 +25,7 @@ class CuckooHashTable
     int hash1(int key) const;
     int hash2(int key) const;
     void rehash();
-    void swap(Node& a, Node& b);
+    void swap(Nod& a, Nod& b);
 
 public:
     CuckooHashTable();
