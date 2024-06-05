@@ -160,7 +160,7 @@ void CuckooHashTable::show() const
         }
     }
 
-    std::cout << "Tabela 2:" << std::endl;
+    cout << "Tabela 2:" << endl;
     for (int i = 0; i < capacity; ++i) 
     {
         if (!table2[i].is_empty) 
